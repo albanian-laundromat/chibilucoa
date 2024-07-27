@@ -35,7 +35,8 @@ forbiddenservers = [1210342412581339156,
                     1238413160688386048,
                     1175162388568354867,
                     1240736830232723536,
-                    1240736830232723536
+                    1240736830232723536,
+                    1200106243071692890
     ]
 
 disabletriggers = [1240736830232723536
@@ -91,8 +92,27 @@ class MyClient(discord.Client):
             user = await self.fetch_user(message.content.split(" ")[1])
             await user.send(content=message.content.split(" ",2)[2])
 
-        if message.author.id == 1102939243954847745:
+        """if message.author.id in [1102939243954847745, 546463211675844653]:
             await message.add_reaction("🤓")
+            if message.author.id == 546463211675844653:
+                await message.add_reaction("<:ted:1197556869166804992>")
+
+        if message.author.id == 749043503379775509:
+            await message.add_reaction("🤫")
+
+        if message.author.id == 749043503379775509:
+            await message.add_reaction("🧏")
+
+        if message.author.id == 1110016316309520394:
+            await message.add_reaction("<:Horny:1233921381305942017>")
+
+        if message.author.id == 812493620716371990:
+            await message.add_reaction("🔥")
+
+        if message.author.id == 768471140649402408:
+            for i in "🇸 🇹 🇫 🇺":
+                if i != " ":
+                    await message.add_reaction(i)"""
 
 intents = discord.Intents.default()
 intents.message_content = True
