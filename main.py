@@ -42,20 +42,30 @@ forbiddenservers = [1210342412581339156,
 disabletriggers = [1240736830232723536
                    ]
 
-blacklist = [486185827005628420
+blacklist = [486185827005628420,
+             749043503379775509
              ]
+
+admins = [958755251110936627,
+          812493620716371990
+    ]
 
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
 
     async def on_message(self, message):
-        print(f'Message from {message.author} ({message.author.id}) in {message.channel.id}: {message.content}')
-        if str(message.author) not in ["chibilucoa#8623", "___hyacinth", "j_lk23"] and message.guild == None:
-            user = await self.fetch_user(812493620716371990)
-            await user.send(content=f'{str(message.author)} ({message.author.id}) said: {message.content}')
-            user = await self.fetch_user(958755251110936627)
-            await user.send(content=f'{str(message.author)} ({message.author.id}) said: {message.content}')
+        try:
+            k = f'Message from {message.author} ({message.author.id}) in {message.channel.name} ({message.channel.id}): {message.content}'
+        except:
+            k = f'Message from {message.author} ({message.author.id}): {message.content}'
+        print(k)
+        if message.channel.id != 1266944000963776515:
+            logs = await self.fetch_channel(1266944000963776515)
+            await logs.send(k)
+            if message.attachments != []:
+                for i in message.attachments:
+                    await logs.send(i.url)
         if message.content.startswith("$")\
         and len(message.content.strip()) > 1\
         and str(message.author) != "chibilucoa#8623"\
@@ -113,6 +123,27 @@ class MyClient(discord.Client):
             for i in "🇸 🇹 🇫 🇺":
                 if i != " ":
                     await message.add_reaction(i)"""
+
+        if message.content.startswith("cl$queue ") and message.channel.id == 1212984565958713374:
+            if len(message.content) > 20:
+                f = open("questions.txt", "a")
+                f.write("\n" + message.content[9:].replace("\n", " "))
+                f.close()
+                await message.channel.send(f"Your question,\n{message.content[9:].replace('\n', ' ')}\nhas been added to the queue")
+            else:
+                await message.channel.send("Your question needs to be longer")
+
+        if message.content == "cl$qotd" and message.channel.id == 1212984565958713374 and message.author.id in admins:
+            f = open("questions.txt", "r")
+            questions = f.read().split("\n")
+            f.close()
+            question = questions.pop(0)
+
+            await message.channel.send(f"# QOTD\n\n{question}")
+
+            f = open("questions.txt", "w")
+            f.write("\n".join(questions))
+            f.close()
 
 intents = discord.Intents.default()
 intents.message_content = True

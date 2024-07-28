@@ -11,7 +11,7 @@ def process(text):
     content = f.read()
     f.close()
 
-    if len(content) > 50000:
+    if len(content) > 100000:
         return
 
     for i in range(ngramnumber - 1, len(text)):
