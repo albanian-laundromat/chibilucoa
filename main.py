@@ -7,7 +7,7 @@ validchannels = [1229540258069221540,
                  1261541638212423761,
                  1264944177729376341]
 
-forbiddenchannels = [1184930234051608666,
+forbiddenchannels = [#1184930234051608666,
                      1260400559559675924,
                      1260400129249382501,
                      1260400004623765554,
@@ -16,7 +16,8 @@ forbiddenchannels = [1184930234051608666,
                      1212974285170151466,
                      1264483221907701801,
                      1240736830232723536,
-                     1240736830232723539
+                     1240736830232723539,
+                     1184930234051608666
     ]
 
 skibidichannels = [1259986626482802718,
@@ -26,24 +27,27 @@ skibidichannels = [1259986626482802718,
                    1260063031090479126,
                    1260065292210667550,
                    1260065450927329353,
-                   1249072063784816640,
+                   #1249072063784816640,
                    1259353976650862653,
                    1263421746770612286
                        ]
 
 forbiddenservers = [1210342412581339156,
                     1238413160688386048,
-                    1175162388568354867,
+                    #1175162388568354867,
                     1240736830232723536,
                     1240736830232723536,
                     1200106243071692890
     ]
 
-disabletriggers = [1240736830232723536
+disabletriggers = [1240736830232723536,
+                   1210342412581339156,
+                   1175162388568354867
                    ]
 
 blacklist = [486185827005628420,
-             749043503379775509
+             749043503379775509,
+             1102939243954847745
              ]
 
 admins = [958755251110936627,
@@ -56,16 +60,17 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         try:
-            k = f'Message from {message.author} ({message.author.id}) in {message.channel.name} ({message.channel.id}): {message.content}'
+            k = f'Message from {message.author} ({message.author.id}) in {message.channel.name} ({message.channel.id}), {message.guild.name} ({message.guild.id}): {message.content}'
         except:
             k = f'Message from {message.author} ({message.author.id}): {message.content}'
+            print(k)
+            if message.channel.id != 1266944000963776515:
+                logs = await self.fetch_channel(1266944000963776515)
+                await logs.send(k)
+                if message.attachments != []:
+                    for i in message.attachments:
+                        await logs.send(i.url)
         print(k)
-        if message.channel.id != 1266944000963776515:
-            logs = await self.fetch_channel(1266944000963776515)
-            await logs.send(k)
-            if message.attachments != []:
-                for i in message.attachments:
-                    await logs.send(i.url)
         if message.content.startswith("$")\
         and len(message.content.strip()) > 1\
         and str(message.author) != "chibilucoa#8623"\
@@ -82,13 +87,15 @@ class MyClient(discord.Client):
                 embed=discord.Embed()
                 embed.add_field(name="hey so uhh", value=components[0] + " is not a recognized command. Please try again.", inline=False)
                 await message.reply(mention_author=False, embed=embed)
-        if str(message.author) != "chibilucoa#8623" and message.guild and message.guild.id not in disabletriggers:
+        if str(message.author) != "chibilucoa#8623" and message.guild and message.author.id not in blacklist and not message.content.startswith("cl$"):
             yapping.process(message.content.lower().replace("@here","").replace("@everyone", ""))
             if message.channel.id not in forbiddenchannels:
-                repliestosend = [(trigger, message.content.lower().index(trigger)) for trigger in triggers.triggers if commands.findindex(message.content.lower(), trigger) != -1]
-                for i in sorted(repliestosend, key = commands.rankings.skibidi):
-                    await message.channel.send(triggers.triggers[i[0]])
-                if (random.randint(1, 20) == 2 or "<@1252795706188496906>" in message.content or message.channel.id in skibidichannels) and message.author.id not in blacklist: 
+                repliestosend = [(trigger, message.content.lower().index(trigger)) for trigger in triggers.triggers\
+                                 if commands.findindex(message.content.lower(), trigger) != -1]
+                if message.guild.id not in disabletriggers:
+                    for i in sorted(repliestosend, key = commands.rankings.skibidi):
+                        await message.channel.send(triggers.triggers[i[0]])
+                if (random.randint(1, 40) == 2 or "<@1252795706188496906>" in message.content or message.channel.id in skibidichannels) and message.author.id not in blacklist: 
                     if (message.guild == None or message.guild.id not in forbiddenservers) or message.channel.id in skibidichannels:
                         await message.channel.send(yapping.generate())
                         
@@ -96,6 +103,12 @@ class MyClient(discord.Client):
 
             user = await self.fetch_channel(message.content.split(" ")[1])
             await user.send(content=message.content.split(" ",2)[2])
+
+        if message.content.split(" ")[0] == "cl$del" and str(message.author) in ["___hyacinth", "j_lk23", "spottedleafofficial"]:
+
+            user = await self.fetch_channel(message.content.split(" ")[1])
+            user2 = await user.fetch_message(message.content.split(" ")[2])
+            await user2.delete()
 
         if message.content.split(" ")[0] == "cl$dm" and str(message.author) in ["___hyacinth", "j_lk23", "spottedleafofficial"]:
 
@@ -145,6 +158,19 @@ class MyClient(discord.Client):
             f.write("\n".join(questions))
             f.close()
 
+        if message.content == "cl$bars":
+            k = []
+            for i in range(4):
+                e = yapping.generate()[:-3]
+                for j in "\n=/<>@%#$&*(){}[]`:0123456789":
+                    e = e.replace(j, " ")
+                k.append(e)
+                if i % 4 == 3:
+                    k.append("")
+            await message.channel.send("\n".join(k))
+                
+
+        
 intents = discord.Intents.default()
 intents.message_content = True
 

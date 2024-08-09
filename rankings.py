@@ -66,7 +66,7 @@ def compileranking(ranking, flip = False):
     sortedlist = sorted(newranking, key = skibidi)
     output = ""
     for i in sortedlist:
-        output += f"**{i[1]}** {round(ranking[i[0]], 2)} \t {i[0]}\n"
+        output += f"`{str(i[1]+1000)[1:]}` {round(ranking[i[0]], 2)} \t {i[0]}\n"
     return output
 
 def submit(message, author):
@@ -115,9 +115,9 @@ def submit(message, author):
                     status = "(NEW)"
                     changed = True
             if international:
-                thingtoadd = f"{i + 1}: {ccodes[country]}"
+                thingtoadd = f"`{str(i + 1001)[1:]}` {ccodes[country]}"
             else:
-                thingtoadd = f"{i + 1}: {gettitle(message[0], country)}"
+                thingtoadd = f"`{str(i + 1001)[1:]}` {gettitle(message[0], country)}"
             if hasranking and changed:
                 thingtoadd += f" **{status}**"
             output += thingtoadd + "\n"
@@ -180,9 +180,9 @@ def view(message, author):
         output = ""
         for i in range(len(ranking)):
             if international:
-                output += f"{i + 1}: {ccodes[ranking[i]]}\n"
+                output += f"`{str(i + 1001)[1:]}` {ccodes[ranking[i]]}\n"
             else:
-                output += f"{i + 1}: {gettitle(message[0], ranking[i])}\n"
+                output += f"`{str(i + 1001)[1:]}` {gettitle(message[0], ranking[i])}\n"
         return (title, output)
     except:
         if selfrequest:

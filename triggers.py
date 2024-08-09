@@ -12,7 +12,7 @@ triggers = {
     "bab" : "bejba\n\nit's kinda krejzah",
     "grit" : "grito more like midto",
     "mod" : "mods? you mean NBU ~~wage slaves~~ employees and ~~unpaid interns~~ associates?",
-    "see" : "it is time to open up your nose",
+    #"see" : "it is time to open up your nose",
     "craz" : "Crazy? I was crazy once. They put me in a room. A rubber room. A rubber room with rats. And rats make me crazy.",
     "1984" : "Democracy? What's that? We are an authoritarian 1984 dystopian Orwell server",
     "brok" : "woah oh oh",
@@ -24,8 +24,6 @@ triggers = {
     "kys" : ":rage: :sob:",
     "stfu" : "ad hominem",
     "spawn" : "how bout you spawn some bitches",
-    "spown" : "how bout you spown some bitches"
+    "spown" : "how bout you spown some bitches",
+    "monad" : "A monad is a monoid in the category of endofunctors"
     }
-
-triggers = {
-    "?ban <@1252795706188496906>" : "nuh uh"}

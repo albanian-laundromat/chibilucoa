@@ -38,18 +38,21 @@ def generate():
     triplets.remove(reply)
     
     while True:
-        if reply[-1] == "E":
-            reply = reply[:-1]
+        try:
+            if reply[-1] == "E":
+                reply = reply[:-1]
+                break
+            current = reply[1 - ngramnumber:]
+            candidates = [i[-1] for i in triplets if i[:-1] == current]
+            if candidates == []:
+                break
+            chosen = random.choice(candidates)
+            triplets.remove(current + chosen)
+            if chosen == "E":
+                break
+            reply += chosen
+        except:
             break
-        current = reply[1 - ngramnumber:]
-        candidates = [i[-1] for i in triplets if i[:-1] == current]
-        if candidates == []:
-            break
-        chosen = random.choice(candidates)
-        triplets.remove(current + chosen)
-        if chosen == "E":
-            break
-        reply += chosen
 
     f = open(f"yapping{ngramnumber}.txt", "w", encoding = "utf-8")
     f.write("S".join(triplets))
