@@ -115,6 +115,12 @@ class MyClient(discord.Client):
             user = await self.fetch_user(message.content.split(" ")[1])
             await user.send(content=message.content.split(" ",2)[2])
 
+        if message.author.id in [1102939243954847745, 546463211675844653]:
+            await message.add_reaction("🤓")
+
+        if "pillalu" in message.content.lower():
+            await message.add_reaction("<:ramanujan:1196873462317326516>")
+
         """if message.author.id in [1102939243954847745, 546463211675844653]:
             await message.add_reaction("🤓")
             if message.author.id == 546463211675844653:

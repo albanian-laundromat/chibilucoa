@@ -335,3 +335,8 @@ def winners(message, author):
     if not hasrankings:
         return ("an error occurred", "you or the requested user has no badvision rakings")
     return (title, output)
+
+def entries(message, author):
+    if len(message) == 1:
+        return
+    contest = message[1]
