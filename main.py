@@ -41,8 +41,7 @@ forbiddenservers = [1210342412581339156,
     ]
 
 disabletriggers = [1240736830232723536,
-                   1210342412581339156,
-                   1175162388568354867
+                   1210342412581339156
                    ]
 
 blacklist = [486185827005628420,
@@ -50,9 +49,12 @@ blacklist = [486185827005628420,
              1102939243954847745
              ]
 
-admins = [958755251110936627,
-          812493620716371990
-    ]
+f = open("admins.txt")
+
+admins = [int(i) for i in f.read().split("\n")]
+
+f.close()
+
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -99,24 +101,27 @@ class MyClient(discord.Client):
                     if (message.guild == None or message.guild.id not in forbiddenservers) or message.channel.id in skibidichannels:
                         await message.channel.send(yapping.generate())
                         
-        if message.content.split(" ")[0] == "cl$send" and str(message.author) in ["___hyacinth", "j_lk23", "spottedleafofficial"]:
+        if message.content.split(" ")[0] == "cl$send" and message.author.id in admins:
 
             user = await self.fetch_channel(message.content.split(" ")[1])
             await user.send(content=message.content.split(" ",2)[2])
 
-        if message.content.split(" ")[0] == "cl$del" and str(message.author) in ["___hyacinth", "j_lk23", "spottedleafofficial"]:
+        if message.content.split(" ")[0] == "cl$del" and message.author.id in admins:
 
             user = await self.fetch_channel(message.content.split(" ")[1])
             user2 = await user.fetch_message(message.content.split(" ")[2])
             await user2.delete()
 
-        if message.content.split(" ")[0] == "cl$dm" and str(message.author) in ["___hyacinth", "j_lk23", "spottedleafofficial"]:
+        if message.content.split(" ")[0] == "cl$dm" and message.author.id in admins:
 
             user = await self.fetch_user(message.content.split(" ")[1])
             await user.send(content=message.content.split(" ",2)[2])
 
-        if message.author.id in [1102939243954847745, 546463211675844653]:
+        if message.author.id in [546463211675844653, 1271514040786747495]:
             await message.add_reaction("🤓")
+
+        #if message.author.id in [1102939243954847745]:
+            #await message.add_reaction("❌")
 
         if "pillalu" in message.content.lower():
             await message.add_reaction("<:ramanujan:1196873462317326516>")

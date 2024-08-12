@@ -291,14 +291,14 @@ def countrylog(message, author):
     badvisioneditions = sorted([i for i in contests if i[0].isnumeric()])
     for edition in badvisioneditions:
         try:
-            f = open(f"contest_{edition}/entry_{country}/index.txt")
+            f = open(f"contest_{edition}/entry_{country}/index.txt", encoding = "utf-8")
             name = f.read().split("\n")[0]
             f.close()
         except:
             continue
         line = "**" + edition + "** " + name
         try:
-            f = open(f"contest_{edition}/rankings/{referent}.txt")
+            f = open(f"contest_{edition}/rankings/{referent}.txt", encoding = "utf-8")
             placing = 1 + f.read().split("\n").index(country)
             f.close()
             line += f" **{placing}/{len(getentries(edition))}**"
